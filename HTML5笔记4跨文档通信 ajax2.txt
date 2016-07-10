@@ -1,0 +1,158 @@
+HTML5笔记4跨文档通信 ajax2
+跨文档消息通信//服务器环境下
+	*****postMessage对象（**跨域）（5）
+		接收消息的窗口对象.postMessage()
+		一参：发送的数据，二参：接收的域
+			oMyIframe.contentWindow.postMessage('1', 'http://www.b.com');（6）//发送数据 兼容性 IE8/IE9/FireFox3.6及其以下版本只支持字符串数据
+		返回：message事件（2/3）//接收数据
+		window.addEventListener('message', function(ev) {
+			//alert('b.com下的页面接收到了内容了');
+			//message事件的事件对象下保存了发送过来的内容
+			//ev.data : 发送过来的数据
+			//ev.origin   //http://www.a.com
+			//alert('我接收到了a.com页面发送过来的数据，内容是：' + ev.data);
+			//alert(ev.origin);
+			if (ev.data == '1') {
+				document.body.style.background = 'red';
+			}
+	}, false);
+	交互方式(**同域下窗口间通信的两种方式)//parent(父级页面若无父级window则指当前window) top(顶级页面) window
+		iframe
+		//如果我们要操作一个iframe里面的dom元素，首先要获取到iframe引入的页面的window
+		//oMyIframe.contentWindow -> 被iframe包含的页面的window对象//[object window]
+		//alert(oMyIframe.contentWindow);
+		**iframe:父页面：contentWindow、子页面：window.top(1)
+			//alert(oMyIframe.contentWindow)返回object window
+			//oMyIframe.contentWindow.document.body.style.background = 'red';
+			<iframe id="myframe" src="2.iframe.html"></iframe>
+		//parent => window 如果当前页面是顶级，没有被其他页面所包含，那么parent就是当前页面的window对象，那么如果被包含了，则parent就是包含当前页面的父级页面的window对象
+		******parent.document.body.style.background = 'green';
+			/*
+			window : 当前窗口 
+			parent : 父级窗口
+			top : 顶级窗口
+			*/
+
+		**窗口页：父页面：window.open、子页面：window.opener(3)//window.opener : 通过window.open方法打开当前页面的窗口window
+			<input type="button" value="点击我，开启一个新的窗口打开4.window.open.html页面" id="btn" />
+			//window.open('4.window.open.html', '_blank');//新窗口打开4.window.open.html
+			//var newWindow=null;
+			//newWindow = window.open('4.window.open.html', '_blank');//返回被打开窗口的window对象
+				//newWindow.document.body.style.background = 'red';
+
+				*****window.opener.document.body.style.background = 'green';
+	接收事件
+		message
+		ev.origin：发送数据来源的域
+		ev.data：发送的数据
+	
+
+	XMLHttpRequest Level2 //非常重要
+		XMLHttpRequest改进版/7
+			请求页面与数据页面必须属性不同的域
+			***服务器要设置响应头信息
+				header('Access-Control-Allow-Origin:http://www.a.com');	//这是允许访问该资源的域
+			Origin值展现
+			IE：XDomaiRequest/8
+			新的事件：onload等
+			http://www.w3.org/TR/XMLHttpRequest2
+			https://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+			http://msdn.microsoft.com/en-us/library/cc288060(VS.85).aspx
+		进度事件//针对非IE
+			 upload.onprogress:上传
+			 FormData对象
+			 ev.total(要发送的总量)、ev.loaded(已发送的总量)
+			 onprogress:下载
+
+
+		IE:
+			var oXDomainRequest = new XDomainRequest();
+			oXDomainRequest.onload = function() {
+				alert(this.responseText);
+			}
+			oXDomainRequest.open('get', 'http://www.b.com/ajax.php', true);
+			oXDomainRequest.send();
+		Chrome/Firefox/IE 7及以上
+			oBtn.onclick = function() {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4) {
+						if (xhr.status == 200) {
+							alert(xhr.responseText);
+						}
+					}
+				}
+				xhr.open('get', 'ajax.php', true);//xhr.open('get', 'http://www.b.com/ajax.php', true);(跨域)
+				xhr.send();
+			}
+		/*
+			在标准浏览器下，XMLHttpRequest对象已经是升级版本，支持了更多的特性，可以跨域了
+			但是，如果想实现跨域请求，还需要后端的相关配合才可以
+			XMLHttpRequest : 增加很多功能，他也不推荐使用onreadystatechange这个事件来监听，推荐使用onload
+			XDomainRequest : IE如果想实现跨域请求，则需要使用另外一个对象去实现
+			*/
+			var oBtn = document.getElementById('btn');
+			oBtn.onclick = function() {
+				/*var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4) {
+						if (xhr.status == 200) {
+							alert(xhr.responseText);
+						}
+					}
+				}
+				xhr.open('get', 'http://www.b.com/ajax.php', true);
+				xhr.send();*/
+				var oXDomainRequest = new XDomainRequest();//IE
+				oXDomainRequest.onload = function() {
+					alert(this.responseText);
+				}
+				oXDomainRequest.open('get', 'http://www.b.com/ajax.php', true);
+				oXDomainRequest.send();
+	
+		*****进度事件/9(ajax2提交) 10(form提交数据)  (非常非常重要)
+			 upload.onprogress:上传
+			 FormData对象
+			 ev.total(已发送的总量)、ev.load(待发送的总量)
+			 onprogress:下载
+	websocket
+		互联网协议
+			http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html
+			TCP/IP协议
+				定义了电子设备如何连入因特网，以及数据在它们之间传输的标准（如何插入）
+				传输数据（协议）类型：Email www FTP等
+			HTTP协议
+				浏览器和万维网服务器之间互相通信的规则
+		HTTP协议特点
+			功能很强大
+			采用请求、响应模式、单向通信
+			短连接，响应完成连接就断开
+		实时web交互
+			股票、聊天室、网游等应用
+			如果实现实时应用？服务器推送
+		什么是web socket?
+			基于TCP的双向的、全双工的数据连接
+				双向的：客户端、服务器端
+				全双工：数据的发送与接收，两者同步进行
+			建立socket应用？
+				服务器必须支持web socket
+				Nodejs
+		Node.js
+			安装node.js
+			转到项目目录
+			运行node scriptname.js
+			http服务器的创建
+			安装wesocket模块npm install socket.io
+			websocket服务的创建
+离线存储
+	搭建离线应用程序
+		①服务器设置头信息 : 
+			AddType text/cache-manifest .manifest
+		② html标签加 : 
+			manifest=“xxxxx.manifest”
+		③写manifest文件 :  离线的清单列表
+			先写 :  CACHE MANIFEST
+			FALLBACK :  第一个网络地址没获取到，就走第二个缓存的
+			NETWORK ：无论缓存中存在与否，均从网络获取
+
+

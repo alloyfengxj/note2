@@ -1,0 +1,519 @@
+//$('#div1').css('background','red');
+//$('div').css('background','red');
+$('.box').css('background','red');
+//$('li:eq(2)').css('background','red'); //:first/:last
+//$('li:odd').css('background','red');//even奇数行 odd偶数行
+
+//$('li').filter('.box').css('background','red');//还可以$('li.box')
+
+******$('li').filter('[title=hello]').css('background','red');
+innerHTML = 123;
+html(123)//赋值  html()获取  $('ul').children()//
+window.onload=function(){};//$(function(){})
+
+//$('#div1').html('hello');  //赋值，给一组元素赋值时是赋一组的
+	
+	//alert( $('#div1').html() ); //取值,一组元素取值时只能取得第一个元素的值
+	
+	css('width','200px')//设置
+	css('width')//获取
+==================================================================================================================
+$()下的常用方法
+	has()
+	not()
+	filter()
+	next()
+	prev()
+	find()
+	eq()
+	index()
+	attr()
+//alert($('div').attr('title'));//获取
+	
+	$('div').attr('title','456');//设置
+	$('div').attr('class','box');
+
+****$('div').not('.box').css('background','red'); //filter的反向操作
+
+$()下的常用方法
+	has()//$('div').has('span').css('background','red');  has 包含 给含有span的div加背景色
+	not()
+	***filter()//自身
+	next() //下一个兄弟节点
+	prev() //上一个兄弟节点
+	**find() //找某个元素 子集//$('div').find('h2').eq(1).css('background','red');
+	eq()
+	index()//获取索引
+	attr()
+$()下的常用方法
+	addClass()   removeClass()  
+	hasClass()//if( $(this).hasClass("protected")) 检查当前的元素是否含有某个特定的类，如果有，则返回true。
+	***width()   innerWidth()//width+padding   outerWidth()//width+padding+border不带单位  css()带单位 //outerWidth(true) 					width+padding+border+margin
+	height()
+===========================================================================================================================
+	insertBefore()  before() ////
+		//$('span').insertBefore( $('div') );span加到div前面
+		//<p>I would like to say: </p><div id="foo">Hello</div>
+	insertAfter()   after()
+		//$('div').insertAfter( $('span') );//div加到span后面
+		//<div id="foo">Hello</div><p>I would like to say: </p>
+	appendTo()   append()
+		//相当于appendChild
+	prependTo()   prepend()
+		//加到指定节点最开始的位置 将一个DOM元素前置入所有段落
+		[ <p><b>Hello</b>I would like to say: </p> ]
+
+****remove()//删除节点
+===================================================================================================================
+****on()  off()
+/*$('div').on('click',function(){
+	alert(123);
+});*/
+
+	
+	/*$('div').on('click mouseover',function(){
+		alert(123);
+	});*/
+	
+	/*$('div').on({
+		'click' : function(){
+			alert(123);
+		},
+		'mouseover' : function(){
+			alert(456);
+		} //json格式
+	});*/
+======================================================================================================================
+off()*******
+	$('div').on('click mouseover',function(){
+		alert(123);
+		$('div').off('mouseover');//不写取消全部
+	});
+=======================================================================================================================
+scrollTop() //滚动距离
+	$(document).click(function(){
+		alert( $(window).scrollTop() );  //滚动距离
+	});
+=========================================================================================================================
+*****创建元素
+	//var oDiv = $('<div>div</div>');
+	//$('body').append( oDiv );
+=========================================================================================================================
+编写弹窗
+$()下的常用方法
+	ev  pageX  which  
+	preventDefault  stopPropagation
+	one()
+	offset()  position()
+	offsetParent()
+	*val()
+	size()
+	each()
+	scroll 滚动事件
+	编写拖拽
+	//ev : event对象
+		//ev.pageX(相对于文档的) : clientX(相对于可视区)
+		
+		//ev.which : keyCode//还包括鼠标键值
+		
+		ev.preventDefault();  //阻止默认事件
+		
+		ev.stopPropagation();  //阻止冒泡的操作
+		
+		return false;   //阻止默认事件 + 阻止冒泡的操作
+===============================================================================================================
+one()事件只执行一次
+		$('div').one('click',function(){  //只执行事件一次
+				alert(123);
+		});
+================================================================================================================
+offset()
+	//alert( $('#div2').offset().left );  //获取到屏幕的左距离
+	alert( $('#div2').position().left );  //到有定位的父级的left值,把当前元素转化成类似定位的形式//没定位到屏幕
+================================================================================================================
+parent() : 获取父级
+	//offsetParent() : 获取有定位的父级
+	
+	//$('#div2').parent().css('background','blue');
+	
+	$('#div2').offsetParent().css('background','blue');
+================================================================================================================
+size()：获取一组元素的长度像length
+	alert( $('li').size() );  //4 像length
+================================================================================================================
+each() 相当于for循环
+	$('li').each(function(i,element){   //一参：下标 二参 : 每个元素
+			$(element).html(i);
+	});
+================================================================================================================
+$()下的常用方法
+	hover()
+	show()  hide()
+	fadeIn()   fadeOut()
+	fadeTo()//调整透明度 参数 speed opacity fn
+	slideDown()   slideUp()
+================================================================================================================
+hover() 移入移出事件
+	hover(function(){},function(){})//两个函数分别为移入和移出
+================================================================================================================
+hide()隐藏//可以写时间以运动效果显示
+show()显示//可以写时间以运动效果显示
+================================================================================================================
+fadeIn()   fadeOut()//淡入淡出 也可以传时间默认为400毫秒
+
+================================================================================================================
+slideDown() 向下展开  slideUp()向上卷起
+
+================================================================================================================
+fadeTo(1000,0.5) 一个为时间一个为透明度
+
+================================================================================================================
+基础方法扩充
+	get()  :   下标和length属性
+	outerWidth()  :   针对隐藏元素和参数true
+	text()   :   合体的特例//文本内容
+	remove()  :  detach()****
+	$()   :  $(document).ready()
+================================================================================================================
+***get() : get()  :   下标和length属性 就是把JQ转成原生JS  $(this).get(0)与$(this)[0]等价。
+			这能够让你选择一个实际的DOM 元素并且对他直接操作，而不是通过 jQuery 函数。
+
+	alert( $('#div1').get(0).innerHTML );//集合中的第0个元素
+	for(var i=0;i<$('li').get().length;i++){//一组li的长度
+		$('li').get(i).style.background = 'red';
+	}
+
+	for(var i=0;i<$('li').length;i++){//JQ下也有length
+		$('li').get(i).style.background = 'red';
+		
+		//$('li')[i].style.background = 'red';//[i]转为原生
+	}
+================================================================================================================
+outerWidth()  :   针对隐藏元素和参数true 原生：offsetWidth获得不了隐藏元素的大小//offsetWidth盒模型宽度
+				  outerWidth()可以获取
+
+================================================================================================================
+text()   :   合体的特例
+	*** 可以获得一组元素的所有文本值，html标签获取不到标签里的内容可以获取到，也可以设置内容，如果设置的含标签会排除掉
+	 $("p").text("Hello world!");
+
+	 $("p").text(function(n){
+     	return "这个 p 元素的 index 是：" + n;
+     });
+
+================================================================================================================
+detach() //: 跟remove方法一样，只不过会保留删除这个元素的操作行为
+
+	$('div').click(function(){
+		alert(123);
+	});
+
+	var oDiv = $('div').detach();
+	
+	$('body').append( oDiv );
+================================================================================================================
+$()   :  $(document).ready(function(){})
+	$(function(){  //等DOM加载完就可以执行了 , 性能要好
+
+	});
+================================================================================================================
+$()下的常用方法
+	parents()   closest()
+	siblings()  
+	nextAll()  prevAll()
+	parentsUntil()   nextUntil()   prevUntil()
+	clone()
+	wrap()  wrapAll()  wrapInner()  unwrap()
+	add()  slice()
+	serialize()    serializeArray()
+
+
+================================================================================================================
+parents() 所有祖先节点  parents() : 获取当前元素的所有祖先节点，参数就是筛选功能 可传参数
+
+	$('#div2').parents('.box').css('background','red');
+
+***closest() : 获取最近的**指定的祖先节点(包括当前元素自身),必须要***写筛选的参数,只能找到一个元素
+	$('#div2').closest('.box').css('background','red');
+================================================================================================================
+siblings() 找所有的兄弟节点，参数也是筛选功能 不包括自己
+
+nextAll() : 下面所有的兄弟节点，参数也是筛选功能 可以写参数
+prevAll() : 上面所有的兄弟节点 可以写参数
+parentsUntil()   nextUntil()   prevUntil()  
+================================================================================================================
+clone() : 可以接收一个参数 ，作用可以复制之前的操作行为
+	$('div').clone(true).appendTo( $('span') ); true可不写true为深度克隆
+================================================================================================================
+wrap()  wrapAll()  wrapInner()  unwrap()
+	//wrap() : 包装
+	//wrapAll() : 整体包装，给整体包着，用的时候要注意
+	//wrapInner() : 内部包装
+	//unwrap() : 删除包装 ( 删除父级 : 不包括body )这能快速取消 .wrap()方法的效果。
+	$(function(){
+		//$('span').wrapInner('<div>');
+		$('span').unwrap();
+	});
+================================================================================================================
+add() //和的意思 ****slice()
+$('li').slice(1,4).css('background','red');//获取1-3的li
+
+================================================================================================================
+console.log($('form').serialize());  //string : a=1&b=2&c=3//serialize(串联化数据)
+
+console.log( $('form').serializeArray() );
+	[
+		{ name : 'a' , value : '1' },
+		{ name : 'b' , value : '2' },
+		{ name : 'c' , value : '3' }
+	]
+
+================================================================================================================
+$()下的常用方法
+	animate()
+	stop()
+	delay()
+	delegate()   undelegate() die live
+	trigger()
+	ev.data    ev.target   ev.type
+
+================================================================================================================
+animate() : 
+	//第一个参数 : {} 运动的值和属性，一个json
+
+	//第二个参数 : 时间(运动快慢的)  默认 : 400 speed:三种预定速度之一的字符串("slow","normal", or "fast")或表示动画时长的毫秒数值(如：1000)
+	//第三个参数 : 运动形式 只有两种运动形式 ( 默认 : swing(慢快慢) linear(匀速) slow easin)
+
+	//第四个参数 :  回调函数 fn:在动画完成时执行的函数，每个元素执行一次
+
+	$(function(){
+		$('#div1').click(function(){
+			$(this).animate({width : 300 , height : 300} , 4000 , 'linear',function(){
+				alert(123);
+			});
+			
+			$('#div2').animate({width : 300 , height : 300} , 4000 , 'swing');
+			
+		});
+	});
+
+	$('#div1').click(function(){
+		
+		/*$(this).animate({width : 300} , 2000 , 'linear',function(){
+			$(this).animate({height : 300});
+		});*/
+		 
+		$(this).animate({width : 300} , 2000).delay(1000).animate({height : 300} , 2000);
+		
+	});
+	$('#div2').click(function(){
+		
+		//$('#div1').stop();   //默认 : 只会阻止当前运动
+		
+		//$('#div1').stop(true); //阻止后续的运动
+		
+		//$('#div1').stop(true,true); //可以立即停止到指定的目标点
+		
+		$('#div1').finish();  //立即停止到所有指定的目标点
+		
+	});
+================================================================================================================
+****delegate()   undelegate()
+
+/*$('li').on('click',function(){
+		this.style.background = 'red';
+});*/
+	
+	$('ul').delegate('li','click',function(){
+		
+		this.style.background = 'red';
+		
+		$('ul').undelegate();//阻止事件委托 //重要
+		
+	});
+================================================================================================================
+trigger() 自动触发
+
+	/*$('#div1').on('click',function(){
+		alert(123);
+	});
+	
+	$('#div1').trigger('click');  //主动触发*/
+	
+	$('#div1').on('show',function(){
+		alert(123);
+	});
+	
+	$('#div1').on('show',function(){
+		alert(456);
+	});
+	
+	$('#div1').trigger('show');
+================================================================================================================
+*****  ev.data    ev.target   ev.type
+	$('#div1').on('click',{name:'hello'},function(ev){
+			//alert(ev.data.name);
+			//alert( ev.target );//当前事件标签元素
+			alert( ev.type );//事件类型
+	});
+
+================================================================================================================
+$下的常用方法  工具
+	$.type()
+	$.trim()
+	$.inArray()  类似于 indexOf
+	$.proxy()    改变this指向的
+	$.noConflict()
+	$.parseJSON()
+	$.makeArray()
+	$.each()
+================================================================================================================
+$().css()  $().html()  $().val()  : 只能给JQ对象用
+$.xxx()  $.yyy()  $.zzz()  : 不仅可以给JQ用，也可以给原生JS用 : 叫做工具方法
+
+	//var a = null;
+	//$.type() : 也是判断类型，可以判断多种类型 Date Array
+	//alert( typeof a );
+	//alert( $.type(a) );
+	var str = '   hello  ';
+	alert('('+$.trim(str)+')');//$.trim()去前后空格
+
+================================================================================================================
+***   $.inArray()  类似于 indexOf 有就返回位置索引没有就返回-1
+
+	var arr = ['a','b','c','d'];
+	alert(  $.inArray('b',arr)  );
+================================================================================================================
+*****   $.proxy()    改变this指向的
+	function show(n1,n2){
+		alert(n1);
+		alert(n2);
+		alert(this);
+	}
+	//show();
+	$.proxy(show , document,3)(4);
+	$.proxy(show , document)(3，4);与前面一样都可以
+	$(document).click( $.proxy(show,window,3,4));
+================================================================================================================
+$.noConflict()防止冲突 //$ , jQuery  防止其它库的$冲突
+	var miaov = $.noConflict();
+	var $ = 10;
+	miaov(function(){
+		miaov('body').css('background','red');
+	});
+================================================================================================================
+$.parseJSON() //字符串型JSON转JSON
+	var str = '{"name":"hello"}';
+	alert($.parseJSON( str ).name);
+================================================================================================================
+$.makeArray() 把类数组转化成数组
+	var aDiv = document.getElementsByTagName('div');  //类数组
+	$.makeArray(aDiv).push();
+================================================================================================================
+$下的常用方法
+	ajax() :  json形式的配置参数
+		url    success
+		error   contentType
+		data     type
+		dataType    cache     timeout
+	抽象出来的方法
+		get()
+		post()
+		getJSON()
+			支持jsonp的形式：指定?callback=?
+
+
+/*$.ajax({
+	url : 'xxx.php',
+	data : 'name=hello&age=20',
+	type : 'POST',
+	success : function(data){
+		alert(1);
+	},
+	error : function(){
+		alert(2);
+	}
+});*/
+
+$.get('xxx.php',function(){
+	
+});
+$.get('xxx.php',{name:"hello"},function(){
+	
+});
+$.post('xxx.php',function(){
+	
+});
+
+$.getJSON('xxx.php?callback=?',function(data){
+	data
+});
+jsonp 
+	$.ajax({
+		url:'',
+		datatype:'jsonp',
+		success:function(data){
+			alert(data);
+		}
+	});
+================================================================================================================
+$.each()  通用例遍方法，可用于例遍对象和数组。
+	$.each( [0,1,2], function(i, n){//i为key,n为val
+	  alert( "Item #" + i + ": " + n );
+	});
+================================================================================================================
+插件
+<script>
+//$.extend : 扩展工具方法下的插件形式  $.xxx() $.yyy()
+//$.fn.extend  :  扩展到JQ对象下的插件形式  $().xxx()  $().yyy()
+$.extend({
+	leftTrim : function(str){
+		return str.replace(/^\s+/,'');
+	},
+	rightTrim : function(){},
+	aaa : function(){
+		alert(1);
+	},
+	bbb : function(){}
+});
+$.fn.extend({
+	drag : function(){
+		//this : $('#div1')
+		var disX = 0;
+		var disY = 0;
+		var This = this;
+		this.mousedown(function(ev){
+			disX = ev.pageX - $(this).offset().left;
+			disY = ev.pageY - $(this).offset().top;
+			$(document).mousemove(function(ev){
+				This.css('left' , ev.pageX - disX);
+				This.css('top' , ev.pageY - disY);
+			});
+			$(document).mouseup(function(){
+				$(this).off();
+			});
+			return false;
+		});
+	},
+	aaa : function(){
+		alert(2);
+	}
+});
+</script>
+<script>
+//$.trim()
+//$.leftTrim()
+/*var str = '  hello  ';
+alert( '('+$.leftTrim(str)+')' );*/
+$(function(){
+	$('#div1').drag();
+});
+$.aaa();  // 1
+$().aaa();  //2
+</script>
+
+================================================================================================================
+
+
+
+

@@ -1,0 +1,69 @@
+HTML5笔记 音频和视频
+
+标签
+	audio 、video
+	source
+
+视频容器
+	容器文件，类似于压缩了一组文件
+		音频轨道
+		视频轨道
+		元数据：封面，标题，字幕等
+		格式：.avi、.flv、.mp4、.mkv、.ogv等
+	<audio controls src="johann_sebastian_bach_air.mp3"></audio>//controls 为控件
+	<!--<video controls src="Intermission-Walk-in.ogv"></video>-->
+	<video controls>
+		<source src="Intermission-Walk-in.ogv"></source>
+	    <source src="Intermission-Walk-in_512kb.mp4"></source>
+	</video>
+
+媒体元素  2
+	controls  :   显示或隐藏用户控制界面
+	***autoplay  :  媒体是否自动播放
+	***loop  : 媒体是否循环播放
+	**currentTime  :  开始到播放现在所用的时间
+	duration  :  媒体总时间(只读)
+	volume  :   0.0-1.0的音量相对值
+	muted  :   是否静音
+	autobuffer  :   开始的时候是否缓冲加载，autoplay的时候，忽略此属性
+
+	var oA = document.getElementById('a1');
+	/*setInterval(function(){
+		console.log(oA.currentTime);
+	},1000);*/
+	//oA.currentTime = 60;
+	console.log( oA.duration );
+	console.log( oA.volume );
+	console.log( oA.muted );
+	console.log( oA.paused );
+	console.log( oA.ended );//静音返回假
+	console.log( oA.error );
+	console.log( oA.currentSrc );
+
+媒体元素_2   2
+	paused  :   媒体是否暂停(只读)
+	ended   :   媒体是否播放完毕(只读)
+	error   :  媒体发生错误的时候，返回错误代码 (只读)
+	currentSrc  :   以字符串的形式返回媒体地址(只读)
+
+	play()  :  媒体播放//3.html
+	pause()  :  媒体暂停
+	load()  :  重新加载媒体
+媒体元素_3 
+loadstart progress suspend emptied stalled play pause loadedmetadata loadeddata waiting playing canplay canplaythrough seeking seeked timeupdate ended ratechange durationchange volumechange
+	oV.addEventListener('ended',function(){
+			alert(123);
+	},false);
+Video额外特性  5.html
+	***poster  :   视频播放前的预览图片
+	width、height  :   设置视频的尺寸
+	videoWidth、 videoHeight  :   视频的实际尺寸(只读)
+		var oV = document.getElementById('v1');
+		oV.poster = '2.png';
+		oV.width = 500;
+		oV.height = 500;
+		alert( oV.videoWidth );
+	例子：带声音的导航 v3 6.html
+	例子：视频与canvas结合 v3 7.html
+	例子：自制播放器 7 8
+	http://www.alloyteam.com/wp-content/uploads/2012/03/palydemo/index.html

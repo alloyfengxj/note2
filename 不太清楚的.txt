@@ -1,0 +1,475 @@
+不太清楚的
+
+获取元素直接子级元素：
+	var aLi=oBox.children;  记住！！！
+	子级获取的一组元素！ 得加下标
+获取元素直接父级元素：
+	var oPar=obj.parentNode;
+	obj.parentNode.parentNode; 父级的父级
+同级节点：
+	下一个：
+		oNext=oLi.nextSibling;  
+			IE 下一个标签
+			chrome/firefox 下一个空格文本
+		oLi.nextElementSibling 
+			IE undefined
+			chrome/firefox 下一个标签
+	兼容写法：
+	var next=oLi.nextElementSibling||oLi.nextSibling;
+或者：
+	从开始往后找 只要找到真的 就返回 如果都是假的 就返回最后一个！
+	上一个：
+	var pre=oLi.previousElementSibling||oLi.previousSibling;
+!!!获取子集的第一个节点：
+	oUl.firstElementChild || oUl.firstChild;
+!!!获取子集的最后一个节点：
+	oUl.lastElementChild || oUl.lastChild;
+=====================================================================================================
+网址信息：
+	window.location  获取网址
+
+	window.location.href='http://www.zhinengshe.com';	
+	设置网址
+
+	window.location3.html?a=1&b=2
+
+	window.location.search  
+	获取get提交方式的数据？后面的信息
+
+	window.location.hash    获取地址栏#后面的信息
+
+=========================
+
+	window.location.protocol 协议
+
+	window.location.hostname 域名
+
+	window.location.port 端口
+
+	window.location.pathname 域名后面剩下的部分
+=============================================================================================
+str.replace('?','') 替换字符
+str.search(reg)  字符串搜索某个规则下的字符下标
+			如果找不到 就返回-1
+正则下的转义： 
+		\'  单引号
+		\n 换行
+		\\  代表斜杠本身
+
+		\d  digital 数字
+		\w  word  单词 数字字母下划线
+		\s   space  空白
+		.     全部
+str.match(reg) 获取字符串中符合规则的数据 - 如果没有 返回null
+中括号：[] 
+	1. [abc]  a|b|c  或者
+
+	2. [0-9]  0到9  范围 [a-z]
+
+	3. [^a]   除去a 排除
+
+	reg = /1[abc]c/;    1ac  1bc 1cc
+
+	reg=/1[5-8]/;      15 16 17 18
+
+	reg=/a[^b]/;       除了 ab 之外的任意俩位数组合
+
+
+	reg.test(oT.value)  返回真或假 必须都加 开始和结束！
+花括号：控制量词
+	{n}  出现n个数
+	{n,m} 出现 最少n个 最多m个
+	
+	+ 若干  {1,}
+	*  最少0个 最多不限 {0,}
+	?  最少0个 最多1个 {0,1}   可有可无
+	.  所有！
+() 提高优先级
+
+修饰：
+	^  起始位置
+	$   结束位置
+	|    或者
+正则中：
+		\d  digital数字      [0-9]
+		\w  word 单词  字母数字下划线  [a-z0-9_]
+		\s   space 空白  
+
+		\D 非数字  [^0-9]
+		\W 非单词 [^a-z0-9_]
+		\S  非空白
+		
+		选项：
+		  i   ignore 忽略大小写
+		  g  global 匹配全局
+		  m  multi-line  多行匹配
+	    var reg=new RegExp('\\d+','g');
+	    alert(str.match(reg));
+事件解绑定： 
+	不能解绑匿名函数
+	oBtn.removeEventListener('click',show,false);//谷歌/火狐 false为事件冒泡
+	
+	oBtn.detachEvent('on'+click,fn);//IE  IE8-
+
+	function removeEvent(obj,ev,fn){
+			obj.removeEventListener?obj.removeEventListener(ev,fn,false):obj.detachEvent('on'+ev,fn);
+
+调用函数	fn1() == fn1.call()
+	call 函数下的一个方法，call方法第一个参数可以改变函数执行过程中的内部this的指向，call方法第二个参数开始就是原来函数的参数列表
+	fn1.call(null, 10, 20);//传null时this指向window
+	obj.attachEvent('on' + evname, function() {
+			fn.call(obj);
+	});
+/*
+	1.拖拽的时候，如果有文字被选中，会产生问题
+		原因：当鼠标按下的时候，如果页面中有文字被选中，那么会触发浏览器默认拖拽文字的效果
+			解决：
+				标准：阻止默认行为
+				非标准ie：全局捕获
+	*/
+深度克隆 var newBox=oBox.cloneNode(true);
+
+浅克隆： var newBox=oBox.cloneNode();
+页面高度：document.body.offsetHeight 内容有浮动没清 
+	    document.documentElement.scrollHeight 页面高度
+=========================================================================================================================
+滚动条上面的已滚动的距离：！！！重要
+	document.body.scrollTop 谷歌
+	document.documentElement.scrollTop 火狐/IE
+鼠标滚动距离
+	var sT=document.body.scrollTop || document.documentElement.scrollTop;
+==========================================================================================================================
+***阻止默认行为：
+	return false;
+						return false的作用：
+							•event.preventDefault();
+							•event.stopPropagation();
+							•停止回调函数执行并立即返回。
+	事件绑定之下 是无效的！
+	oE.preventDefault&&oE.preventDefault(); 清除默认行为
+===================================================================================================================
+鼠标滚轮：
+	onmousewheel  鼠标滚轮滚动时
+		IE/谷歌
+
+		oE.wheelDelta  
+			120 上
+			-120 下
+
+	oBox.addEventListener('DOMMouseScroll',function(ev){
+			oE.detail
+				-3 上
+				3   下
+		},false);
+		火狐
+------------------------------------------------------------------------------------------------------------------------
+oTxt.onkeydown=oTxt.onkeyup 可以解决实时获取文字的效果
+		oTxt.onkeydown=function(){
+			document.title=oTxt.value.length;
+		};
+		onkeydown 无法获取 按第二个时第一个才出来
+		onkeyup 按住不放连续输入时无变化，放开时才显示变化
+	oTxt.oninput  实时获取内容变化
+		高级浏览器（IE9+ chrome 火狐）
+
+	onpropertychange 
+		IE 6 7 8
+
+	事件不兼容 不用if判断  浏览器识别成自定义属性
+
+	连等解决兼容问题 
+		IE9 小问题  删除不好使
+			设置定时器
+
+	onchange 在失去焦点时才会执行
+------------------------------------------------------------------------------------------------------------
+domReady
+window.addEventListener('DOMContentLoaded',function(){
+		alert(1);	
+	},false);//高级浏览器
+document.onreadystatechange=function(){
+		if(document.readyState=='complete'){//一共有两个值一个是interactive,一个是complete,
+			alert(1);	
+		}
+	}
+封装
+function domReady(fn){
+	if(document.addEventListener){
+		document.addEventListener('DOMContentLoaded',function(){
+			fn&&fn();
+		},false);
+	}else{
+		//IE 模拟一个domready
+		document.onreadystatechange=function(){
+			if(document.readyState=='complete'){
+				fn&&fn();
+			}
+		}	
+	}
+}
+---------------------------------------------------------------------------------------------------------------
+事件委托： 把事件交给别的元素上
+	
+	var oE=ev||event;
+	var obj=oE.target;  目标元素（你点谁就是谁）
+		高级浏览器
+	var  obj=oE.srcElement
+		IE 6 7 8
+
+	var obj=oE.srcElement || oE.target; 兼容写法
+	 tagName=='LI'
+	优势： 提高性能
+	           可以给未来的元素加事件
+===========================================================================================================================
+onmouseout 有问题
+	获取移入到哪个元素：
+		oE.toElement *****
+			IE/chrome
+		oE.relatedTarget;*******
+			火狐
+	var to=oE.toElement || oE.relatedTarget;
+	*******if(this.contains(to))return;******
+
+oDiv.onmouseover 的问题
+	获取从哪里来的
+		oE.fromElement 
+			IE/chrome
+		oE.relatedTarget;
+			火狐
+	var from=oE.fromElement||oE.relatedTarget; 兼容写法*********************
+没兼容问题：
+	onmouseenter  当进入
+	onmouseleave  当离开
+window.onload=function(){
+		var oDiv=document.getElementsByTagName('div')[0];
+		oDiv.onmouseout=function(ev){
+			var oE=ev||event;
+			var to=oE.toElement || oE.relatedTarget;
+			if(this.contains(to))return;
+			alert('移出了');
+		};
+};	
+-----------------------------------------------------------------------------------------------
+原型 : 去改写对象下面公用的方法或者属性 , 让公用的方法或者属性在内存中存在一份 ( 提高性能 )
+原型 : 去改写对象下面公用的方法或者属性 , 让公用的方法或者属性在内存中存在一份 ( 提高性能 )	
+
+包装对象 : 基本类型都有自己对应的包装对象 : String  Number  Boolean //除了null undefined// Date Math Object RegExp Array
+
+基本类型会找到对应的包装对象类型，然后包装对象把所有的属性和方法给了基本类型，然后包装对象消失
+****原型链 : 实例对象与原型之间的连接，叫做原型链
+	原型链的最外层 : Object.prototype
+	__proto__( 隐式连接 )
+	Object对象类型是原型链的最外层
+
+面向对象的一些属性和方法
+	hasOwnProperty()  : 看是不是对象自身下面的属性，Object下的方法//true or false
+	***constructor :  查看对象的构造函数,每个构造函数都会自动加上的属性指向构造函数本身
+		每个原型都会自动添加constructor属性
+		For in 的时候有些属性是找不到的
+		避免修改construtor属性
+	***instanceof :  运算符//true or false
+		*******对象与构造函数在原型链上是否有关系
+	toString() :  object上的方法自己写的object上，系统自带的在原型上。把对象转成字符串。//toString() : 把对象转成字符串
+		//toString() : 系统对象下面都是自带的 , 自己写的对象都是通过原型链找object下面的//Number 可以用此方法转进制
+
+		var arr = [];
+		alert( arr.toString == Object.prototype.toString ); //false
+		function Aaa(){
+		}
+		var a1 = new Aaa();
+		alert( a1.toString == Object.prototype.toString );  //true
+		//利用toString做类型的判断 : 
+		/*var arr = [];
+		alert( Object.prototype.toString.call(arr) == '[object Array]' ); */ //'[object Array]'
+
+对象的继承
+	什么是继承
+		在原有对象的基础上，略作修改，得到一个新的对象
+		不影响原有对象的功能
+	如何添加继承
+		***属性：call apply
+		***方法：for in 又叫拷贝继承  类式继承
+
+		例子  :   继承的拖拽
+	继承的其他形式
+		要做属性和方法继承的时候，要分开继承
+		****类式继承 //11样式继承
+				Bbb.prototype=new Aaa();
+			利用构造函数(类)继承的方式
+				Bbb.prototype=new Aaa();
+			问题1：Bbb的实例是Aaa//解决方法 Bbb.prototype.constructor=Bbb;//修正指向问题
+			问题2：
+					var b1 = new Bbb();
+					//b1.showName();
+					//alert( b1.name );
+					//alert( b1.constructor );
+					b1.name.push(4);
+					var b2 = new Bbb();
+					alert( b2.name );//1 2 3 4
+					解决方法：
+						var F = function(){};
+						F.prototype = Aaa.prototype;
+						Bbb.prototype = new F();
+						Bbb.prototype.constructor = Bbb; //修正指向问题
+		原型继承
+			借助原型来实现对象继承对象
+-----------------------------------------------------------------------------------------------------------
+/*
+cookie : 存储数据，当用户访问了某个网站（网页）的时候，我们就可以通过cookie来像访问者电脑上存储数据
+	1.不同的浏览器存放的cookie位置不一样，也是不能通用的
+	2.cookie的存储是以域名形式进行区分的
+	3.cookie的数据可以设置名字的
+	4.一个域名下存放的cookie的个数是有限制的，不同的浏览器存放的个数不一样
+	5.每个cookie存放的内容大小也是有限制的，不同的浏览器存放大小不一样
+	
+	我们通过document.cookie来获取当前网站下的cookie的时候，得到的字符串形式的值，他包含了当前网站下所有的cookie。他会把所有的cookie通过一个分号+空格的形式串联起来
+	
+	如果我们想长时间存放一个cookie。需要在设置这个cookie的时候同时给他设置一个过期的时间
+	cookie默认是临时存储的，当浏览器关闭进程的时候自动销毁
+	内容最好编码存放,encodeURI //解码decodeURI(特殊字符不支持)
+
+*/
+-------------------------------------------------------------------------------------------------------------------------
+	//创建ajax对象
+	if(window.XMLHttpRequest){
+		//非	IE6
+		var oAjax=new XMLHttpRequest();
+	}else{
+		//IE6
+		var oAjax=new ActiveXObject('Microsoft.XMLHTTP');
+	}
+	表单：数据的提交
+    	action : 数据提交的地址，默认是当前页面
+        method : 数据提交的方式，默认是get方式
+        	1.get
+            	把数据名称和数据值用=连接，如果有多个的话，那么他会把多个数据组合用&进行连接，然后把数据放到url?后面传到指定页面
+            2.post
+        enctype : 提交的数据格式，默认application/x-www-form-urlencoded
+    <form action="1.get.php" enctype="application/x-www-form-urlencoded">
+    	<input type="text" name="username" />
+        <input type="text" name="age" />
+        <input type="submit" value="提交" />
+    </form>
+    Get和Post的区别
+	传输方式的区别
+		Get通过url地址传输
+		Post通过浏览器内部传输
+	传输数据量
+		Get有数据量限制，每个浏览器都不同2048kb
+		Post理论上无限
+	请求状态监控
+	onreadystatechange事件
+		readyState属性：请求状态
+		0	（未初始化）还没有调用open()方法
+		1	（载入）已调用send()方法，正在发送请求
+		2	（载入完成）send()方法完成，已收到全部响应内容
+		3	（解析）正在解析响应内容
+		4	（完成）响应内容解析完成，可以在客户端调用了
+		status属性：服务器(请求资源)的状态
+	返回的内容
+		responseText：返回以文本形式存放的内容
+		responseXML：返回XML形式的内容
+	问题(get)
+		1.缓存 在url？后面连接一个随机数，时间戳
+		2.乱码 编码encodeURI
+		解决：xhr.open('get','2.get.php?username='+encodeURI('刘伟')+'&age=30&' + new Date().getTime(),true);
+	=================================================================================================================
+	AJAX-跨域解决之JSONP
+	<script>标签
+		src的作用 ： 加载（包含指定的外部文件）
+			可以跨域包含
+			被包含的资源可以是任何类型的文件(可以是txt,php等)
+			他只关注被包含的文件的内容是否是合法的JS
+		原理
+			定义函数
+			包含外部文件，在被包含的文件中执行调用定义好的函数
+			参数的（数据）的实现
+				问题：包含就调用，通过动态创建<script>实现按需调用
+				问题：包含动态文件时可以通过一个接口实现按需生成调用函数名称
+		JSONP的封装
+
+	实例
+		百度（淘宝）搜索下拉提示
+		126天气预报
+		（选）豆瓣
+	AJAX+JSONP的封装
+
+	window.onload=function(){
+		window.show=function(json){//全局属性
+			var oList=document.getElementById('list');
+			oList.innerHTML='';
+			for(var i=0;i<json.s.length;i++){
+				var oLi=document.createElement('li');
+				oLi.innerHTML=json.s[i];
+				oList.appendChild(oLi);
+			}
+		}
+		
+		var oTxt=document.getElementById('txt');
+		
+		oTxt.onkeyup=function(){
+			var oS=document.createElement('script');
+			oS.src='https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd='+this.value+'&cb=show';
+			var oHead=document.getElementsByTagName('head')[0];
+			oHead.appendChild(oS);
+		}
+	};
+
+==============================================================================================================================
+white-space:nowrap 不换行
+text-overflow:ellipsis;clip  无省略号Ellipsis 省略号
+文字描边
+	***-webkit-text-stroke:宽度 颜色//只有webkit内核有
+letter-spacing:30px
+E~F表示E元素之后的F元素//25.html
+		p~h1{ background:Red;} p标签之后的h1
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+==============================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,149 @@
+HTML5笔记2
+
+新的选择器
+	querySelector获取一个元素
+	querySelectorAll获取一组元素
+	getElementsByClassName只针对class
+window.onload = function(){
+	//var oDiv = document.querySelector('[title=hello]');
+	var oDiv = document.querySelector('.box'); //******只能选择一组中的第一个元素
+	var aDiv = document.querySelectorAll('.box');   //获取一组元素 此时有长度 aDiv.length
+	var aDiv = document.getElementsByClassName('box');//不加.
+	
+	//alert( oDiv.length );// undefined
+	
+	oDiv.style.background  = 'red';
+};
+
+获取class列表属性
+	classList//typeof为对象class列表例如class=" c1 c2 c3"  classList为属性
+		length :  class的长度
+		add()  :  添加class方法
+		remove()  :  删除class方法
+		toggle() :  切换class方法 (有则删除无则添加)
+
+JSON的新方法
+	parse() : 把字符串转成json
+		字符串中的属性要严格的加上引号
+		//eval : 可以解析任何字符串变成JS
+		*******//parse : 只能解析JSON形式的字符串变成JS  (安全性要高一些)//一定是严格的JSON形式
+	stringify() : 把json转化成字符串
+		会自动的把双引号加上
+	新方法与eval的区别
+	新方法的应用
+		深度克隆新对象
+	如何其他浏览器做到兼容
+		http://www.json.org/去下载json2.js
+
+data自定义数据
+	dataset
+		data-name : //获取 oDiv.dataset.name
+		data-name-first  :  dataset.nameFirst //alert( oDiv.dataset.miaovAll );
+	Data数据在jquery mobile中有着重要作用
+
+**data自定义数据7
+	**dataset
+		data-name :  dataset.name
+		data-name-first  :  dataset.nameFirst 
+	Data数据在jquery mobile中有着重要作用
+<script>
+window.onload = function(){
+	var oDiv = document.getElementById('div1');
+	//alert( oDiv.dataset.miaov );
+	alert( oDiv.dataset.miaovAll );
+};
+</script>
+</head>
+<body>
+<div id="div1" data-miaov="妙味" data-miaov-all="妙味课堂">div</div>
+</body>
+</html>
+
+延迟加载JS
+	JS的加载会影响后面的内容加载
+		很多浏览器都采用了并行加载JS，但还是会影响其他内容
+	**Html5的defer和async
+		defer : 延迟加载，会按顺序执行，在onload执行前被触发
+			defer="defer"//onload前加载
+		async : 异步加载，加载完就触发，有顺序问题
+			async="async"
+	Labjs库(异步加载库)
+
+历史管理10 
+	****window.onhashchange  ：改变hash值来管理11(非常重要)
+	****history  ：//12  非常重要
+		服务器下运行
+		**pushState :  三个参数 ：数据  标题(都没实现)  地址(可选)
+		**popstate 事件 :  读取数据   event.state
+		注意：网址是虚假的，需在服务器指定对应页面，不然刷新找不到页面
+
+	oInput.onclick = function(){
+		var arr = randomNum(35,7);
+		**history.pushState(arr,'',arr);
+		oDiv.innerHTML = arr;
+	};
+	window.onpopstate = function(ev){
+		oDiv.innerHTML = ev.state;
+	};
+
+拖放事件 
+	draggable ：
+		设置为true，元素就可以拖拽了
+		draggable="true"
+	*拖拽元素事件 :  事件对象为被拖拽元素
+		ondragstart ,  拖拽前触发 
+		ondrag ,拖拽前、拖拽结束之间，连续触发
+		ondragend  , 拖拽结束触发
+	*目标元素事件 :  事件对象为目标元素
+		ondragenter ,  进入目标元素触发，相当于mouseover
+		ondragover  ,进入目标、离开目标之间，连续触发
+		ondragleave ,  离开目标元素触发，相当于mouseout
+		ondrop  ,  在目标元素上释放鼠标触发
+				要想触发drop事件，就 必须在dragover当中阻止默认事件
+				ev.preventDefault();(阻止文件被打开的默认行为)
+拖放事件_2 
+	事件的执行顺序 ：drop不触发的时候
+		dragstart  >  drag >  dragenter >  dragover >  dragleave > dragend 
+	****事件的执行顺序 ：drop触发的时候(dragover的时候阻止默认事件)
+		dragstart  >  drag >  dragenter >  dragover >  drop > dragend
+	不能释放的光标和能释放的光标不一样
+拖放事件_3 
+	解决火狐下的问题2
+		必须设置dataTransfer对象才可以拖拽除图片外的其他标签
+		在ondragstart事件中设置
+			ev.dataTransfer.setData('name','hello');
+	dataTransfer对象
+		setData() : 设置数据 key和value(必须是字符串)
+		getData() : 获取数据，根据key值，获取对应的value
+
+dataTransfer对象_2
+	effectAllowed 
+		effectAllowed : 设置光标样式(none, copy, copyLink, copyMove, link, linkMove, move, all 和 uninitialized)
+			ev.dataTransfer.effectAllowed = 'link';
+	**setDragImage 3
+		三个参数：指定的元素，坐标X，坐标Y
+	*****files  4
+		获取外部拖拽的文件，返回一个filesList列表 var fs = ev.dataTransfer.files//alert(fs.length);
+		filesList下有个type属性，返回文件的类型//alert( fs[0].type );
+
+*****FileReader(读取文件信息)
+	readAsDataURL
+		参数为要读取的文件对象，将文件读取为DataUrl 
+	onload
+		当读取文件成功完成的时候触发此事件
+		****this. result , 来获取读取的文件数据，如果是图片，将返回base64格式的图片数据
+	实例
+		拖拽删除列表
+		拖拽购物车6
+		上传图片预览功能5
+oDiv.ondrop = function(ev){
+		ev.preventDefault();(阻止文件被打开的默认行为)
+		var fs = ev.dataTransfer.files;
+		//alert(fs.length);
+		//alert( fs[0].type );//文件类型
+		var fd = new FileReader();//读取文件
+		fd.readAsDataURL( fs[0] );
+		fd.onload = function(){
+			alert( this.result );
+		};
+	};

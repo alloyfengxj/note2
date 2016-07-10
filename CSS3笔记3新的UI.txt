@@ -1,0 +1,119 @@
+CSS3笔记3新的UI
+
+圆角
+	border-radius: 1-4个数字 / 1-4个数字
+			两个值时为两个对角线
+			三个值时 角1 角2&角4 角3
+		****前面是水平，后面是垂直 5.html//border-radius:100px/150px;// 水平方向/垂直方向
+		不给“/”则水平和垂直一样
+			border-radius: 10px/5px;//border-radius:20px 40px 60px 80px/10px 20px 30px 40px;6.html
+	参数
+		各种长度单位都可以：px，%，…//border-radius:50%; 7.html
+		%有时很方便
+			但宽高不一致时不太好
+圆角(2)
+	用法
+	1个：都一样
+		border-radius: 一样
+	2个：对角
+		border-radius: 左上&右下    右上&左下
+	3个：斜对角
+		border-radius: 左上    右上&左下    右下
+	4个：全部，顺时针
+		border-radius: 左上    右上    右下    左下
+	border-radius:20px 40px 60px 80px/10px 20px 30px 40px; X轴半径Y轴半径
+*******边框//border-left-width:10px;border-right-width:10px;9.html V1 
+	边框图片 border-image
+		border-image-sourceg 引入图片
+		border-image-slice 切割图片
+		border-image-width 边框宽度
+		border-image-repeat 图片的排列方式
+			round 平铺,repeat 重复,stretch拉伸(默认值) 
+			 -webkit-border-image:url(border.png) 27 27 round stretch;
+	边框颜色 border-colors//多边框颜色只在火狐下实现
+		border-left-colors:red blue yellow;
+*****线性渐变
+	线性渐变格式//要加前缀
+		linear-gradient([<起点> || <角度>,]? <点>, <点>…)
+		只能用在背景上
+			IE filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ff0000',GradientType='1');
+				兼容到	IE6 //0 从上往下//1从左往右
+		参数
+			**起点：从什么方向开始渐变		默认：top
+				left、top、left top
+			角度：从什么角度开始渐变
+				xxx deg的形式//60deg
+			点：渐变点的颜色和位置
+				black 50%，位置可选***
+			background-image:-webkit-linear-gradient(60deg,red 0,blue 50%,green 100%)//14.html
+			-webkit-linear-gradient(60deg,red,blue)//12.html
+			-webkit-linear-gradient(60deg,red,blue,yellow,blue);//13.html
+线性渐变(2)
+	线性渐变实例
+		最简单
+			red, green
+			从上到下***
+		起点位置
+			left top, red, green
+			30deg, red, green
+				逆时针
+		***repeating-linear-gradient
+			-webkit-repeating-linear-gradient(60deg,red 0,blue 30px)//15.html
+			-webkit-repeating-linear-gradient(15deg,green 0,green 10px,#fff 10px,#fff 20px)//绿白相间  16.html
+线性渐变(3)
+	***线性渐变实例(2)
+		加入点的位置
+			top, red 40%, green 60%
+			top, red 50%, green 50%
+				同一个位置两个点——直接跳变
+			也可以用px
+		配合rgba
+			top, rgba(255,255,255,1), rgba(255,255,255,0)
+		加入背景图片
+			**background-image:-webkit-repeating-linear-gradient(60deg,red 0,blue 30px);
+			****background:-webkit-repeating-linear-gradient(left,green 0,green 10px,#fff 10px,#fff 20px)
+			background: -webkit-linear-gradient (top, rgba(255,255,255,1) 30%, rgba(255,255,255,0)), url(a.gif)
+	****实例：百度音乐图片光影效果（重要）V2 18.html
+径向渐变
+	radial-gradient([<起点>]? [<形状> || <大小>,]? <点>, <点>…);
+		1起点：可以是关键字（left,top,right,bottom），具体数值或百分比 不能为度数
+		2形状： ellipse、circle 默认为椭圆
+				background:-webkit-radial-gradient(100px 50px,circle,red,blue);22.html 
+		3大小 :半径，X轴半径和Y轴半径具体数值或百分比，也可以是关键字（最近端，最近角，最远端，最远角，包含或覆盖 (closest-side, closest-corner, farthest-side, farthest-corner, contain or cover)）;
+			-webkit-radial-gradient(100px 50px,100px 20px,red,blue)//23.html 第一组数为起点第二组数为大小
+			background:-webkit-radial-gradient(red,blue);
+		注意firefox目前只支持关键字
+背景
+	***多背景
+		逗号分开
+			background: url(a.jpg) 0 0, url(b.jpg) 0 100%;
+
+	*****背景尺寸
+		background-size:x y （宽 高）
+			background-size:100% 100%
+			cover 放大
+			contain 缩小
+
+背景(2)
+	**background-origin ： border | padding | content ******//背景原点设置
+		border-box： 从border区域开始显示背景。 
+		padding-box： 从padding区域开始显示背景。 
+		content-box： 从content区域开始显示背景。
+	***background-clip（背景裁切）
+			background-clip:content-box;//border-box,padding-box,content-box
+				webkit下还有一个text值 30.html
+		border-box： 从border区域向外裁剪背景。 
+		padding-box： 从padding区域向外裁剪背景。 
+		content-box： 从content区域向外裁剪背景。
+		text:	  webkit下 
+		no-clip： 从border区域向外裁剪背景。
+	实例：iphone开机动画
+遮罩(仅webkit)
+		-webkit-mask:url(mask.png) no-repeat;-webkit-mask:url(../mask.png) center;
+	Mask-image
+	Mask-position//-webkit-mask-position:100% 100%;
+	Mask-repeat
+	实例：特殊形状的幻灯片效果
+
+
+

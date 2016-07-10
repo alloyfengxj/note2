@@ -1,0 +1,71 @@
+CSS3笔记4过渡和2d变换
+
+Transition过渡
+	transition-property  要运动的样式  （all || [attr](宽高背景等) || none）
+	transition-duration 运动时间
+	transition-delay 延迟时间
+	transition-timing-function 运动形式 
+		ease：（逐渐变慢）默认值
+		linear：（匀速）
+		ease-in：(加速)
+		ease-out：（减速）
+		ease-in-out：（先加速后减速）
+		cubic-bezier 贝塞尔曲线（ x1, y1, x2, y2 ） http://matthewlein.com/ceaser/
+			transition:1s width,2s height,3s background;4.html
+			transition:5s width cubic-bezier(0.145,1.295,0.000,1.610); 3.html
+			transition:1s width,2s 1s height,3s 3s background;}//前面的时间为运动时间后面的为延迟时间
+	实例：幻灯片效果
+Transition过渡2
+	****过渡完成事件 
+		Webkit内核： obj.addEventListener('WebkitTransitionEnd',function(){},false);
+		firefox: obj.addEventListener('transitionend',function(){},false);
+	实例：苹果产品展示
+	实例2：360浏览器 ipad 版导航
+2D变换
+	****transform
+		rotate()  旋转函数 取值度数//-webkit-transform:rotate(360deg) 10.html
+			deg  度数
+			***Transform-origin 旋转的基点//默认为元素中心点
+					-webkit-transform-origin:right bottom;//也可以这样20px 20px;18.html
+					-webkit-transform:rotate(360deg) scale(0.2);
+		skew() 倾斜函数 取值度数 
+				-webkit-transform:skewX(45deg)
+				-webkit-transform:skew(15deg,30deg)//X Y轴斜切
+			skewX()
+			skewY()
+		scale() 缩放函数 取值 正数、负数和小数
+			scaleX()
+			scaleY()
+		translate() 位移函数
+			translateX()
+			translateY()
+
+	实例1：钟表效果
+	实例2：怪异的导航
+2D变换(2)  matrix
+	Transform 执行顺序问题 — 后写先执行****
+		-webkit-transform:translateX(100px) scale(0.5);20.html
+	matrix(a,b,c,d,e,f) 矩阵函数
+		通过矩阵实现缩放
+			x轴缩放 a=x*a    c=x*c     e=x*e;   与a相关
+			y轴缩放 b=y*b   d=y*d     f=y*f;    与d相关
+		通过矩阵实现位移
+			x轴位移: e=e+x**                    与e相关
+			y轴位移: f=f+y                      与f相关
+		通过矩阵实现倾斜
+			x轴倾斜: c=Math.tan(xDeg/180*Math.PI)
+			y轴倾斜: b=Math.tan(yDeg/180*Math.PI)
+2D变换(3)
+	matrix(a,b,c,d,e,f) 矩阵函数///旋转
+		通过矩阵实现旋转
+			a=Math.cos(deg/180*Math.PI); 
+			b=Math.sin(deg/180*Math.PI);
+			c=-Math.sin(deg/180*Math.PI);
+			d=Math.cos(deg/180*Math.PI);
+	变换兼容IE9以下IE版本只能通过矩阵来实现
+		filter: progid:DXImageTransform.Microsoft.Matrix( M11= 1, M12= 0, M21= 0 , M22=1,SizingMethod='auto expand');
+		IE下的矩阵没有E和F两个参数 M11==a; M12==c; M21==b; M22==d
+
+
+
+
